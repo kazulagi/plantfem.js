@@ -1,0 +1,14 @@
+
+body{
+    background: #eeee;
+    font-family: Times;
+}
+
+div {
+    background: #ffff;
+    width: 300px;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #cccc;
+    margin: 30px auto;
+}

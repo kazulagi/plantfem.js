@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <!--
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src = "/scripts/jquery.min.js"></script>
+    <script src = "/bootstrap/js/bootstrap.min.js"></script>
+    -->
+    <link rel="stylesheet" href="three_style.css">
+    <!-- icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="android-icon.png" sizes="192x192">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+        
+
+    <!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/105/three.min.js"></script>
+    -->
+    <script src="https://threejs.org/build/three.js"></script> 
+    <script src="./js/controls/OrbitControls.js"></script> 
+    <script src="./js/loaders/STLLoader.js"></script>
+    <script src="./dat.gui/build/dat.gui.js"></script>
+    <script src="./stats.js/build/stats.js"></script>
+    <!-- three.js -->
+    
+<script>
+    // ページの読み込みを待つ
+    window.addEventListener('load', init);
+
+    function init() {
+
+    
+    //  // サイズを指定
+    //  var width = 960;
+    //  var height = 540;
+//
+    //  // レンダラーを作成
+    //  var renderer = new THREE.WebGLRenderer({
+    //    canvas: document.querySelector('#myCanvas')
+    //  });
+    //  renderer.setPixelRatio(window.devicePixelRatio);
+    //  renderer.setSize(width, height);
+//
+    //// シーンを作成
+    //var scene = new THREE.Scene();
+
+    // materials
+    
+//    var leaf_material = new THREE.MeshBasicMaterial({
+//        //map: texture, // テクスチャーを指定
+//        color: 0x008000, // 色
+//        transparent: false, // 透明の表示許可
+//        blending: THREE.AdditiveBlending, // ブレンドモード
+//        side: THREE.DoubleSide, // 表裏の表示設定
+//        depthWrite: false // デプスバッファへの書き込み可否
+//    });
+//    var root_material = new THREE.MeshBasicMaterial({
+//        //map: texture, // テクスチャーを指定
+//        color: 0x007eff, // 色
+//        transparent: false, // 透明の表示許可
+//        blending: THREE.AdditiveBlending, // ブレンドモード
+//        side: THREE.DoubleSide, // 表裏の表示設定
+//        depthWrite: false // デプスバッファへの書き込み可否
+//    });
+//    var stem_material = new THREE.MeshBasicMaterial({
+//        //map: texture, // テクスチャーを指定
+//        color: 0x0CBC547, // 色
+//        transparent: false, // 透明の表示許可
+//        //blending: THREE.AdditiveBlending, // ブレンドモード
+//        //side: THREE.DoubleSide, // 表裏の表示設定
+//        //depthWrite: false // デプスバッファへの書き込み可否
+//    });
+//    var soil_material = new THREE.MeshBasicMaterial({
+//        //map: texture, // テクスチャーを指定
+//        color: 0x0542D24, // 色
+//        transparent: false, // 透明の表示許可
+//        blending: THREE.AdditiveBlending, // ブレンドモード
+//        side: THREE.DoubleSide, // 表裏の表示設定
+//        depthWrite: false // デプスバッファへの書き込み可否
+//    });
+
+    // stat info
+    //function initStats(){
+    //    var stats = new Stats();
+    //    stats.setMode(0);
+    //    stats.domElement.style.position = 'absolute';
+    //    stats.domElement.style.left = '0px';
+    //    stats.domElement.style.top = '0px';
+    //    document.getElementById("Stats-output").appendChild(
+    //        stats.domElement);
+    //    return stats;
+    //}
+    var stats = new Stats();
+    stats.setMode(0);
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
+    //document.getElementById("Stats-output").appendChild(stats.domElement);
+
+    var leaf_material = new THREE.MeshLambertMaterial({color: 0x005E15});
+    var root_material = new THREE.MeshLambertMaterial({color: 0xF3E495});
+    var stem_material = new THREE.MeshLambertMaterial({color: 0xCBC547});
+    var soil_material = new THREE.MeshLambertMaterial({color: 0x542D24});
+    
+    // create control pannel by dat.GUI
+    var controls = new function(){
+        this.light_x = 3.00;
+        this.light_y = 3.00;
+        this.light_z = 3.00;
+        this.strength = 150.0;
+        this.ground_level = 0.00;
+        this.Coming_soon = 0.00;
+    }
+    var gui = new dat.GUI();
+    gui.add(controls, 'light_x', -10.0, 10.0);
+    gui.add(controls, 'light_y', -10.0, 10.0);
+    gui.add(controls, 'light_z', -10.0, 10.0);
+    gui.add(controls, 'strength', 0, 300.0);
+    gui.add(controls, 'ground_level', -1.0, 1.0);
+    gui.add(controls, 'Coming_soon', -100.0, 100);
+    
+
+    // カメラを作成
+    //var camera = new THREE.PerspectiveCamera(45, width / height);
+    //camera.position.set(0, 0, 1000);
+    // カメラコントローラーを作成
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setClearColor(new THREE.Color(0xEEEEEE) );
+    //renderer.setClearColorHex( 0x95F3F2, 1 );
+    renderer.shadowMap.enabled =  true;
+    document.body.appendChild( renderer.domElement );
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+    camera.position.set(0, -3, 2 );
+    var control = new THREE.OrbitControls( camera, renderer.domElement );
+    
+
+    // Objects
+    // Soilを作成
+
+    // Soil
+    var soil = new THREE.PlaneGeometry(50, 50);
+    //// メッシュを作成
+    var soilmesh = new THREE.Mesh(soil, soil_material);
+    soilmesh.position.y=-1
+    scene.add(soilmesh);
+    //// 3D空間にメッシュを追加
+    //sphere.position.x +=100; 
+    //scene.add(boxmesh);
+
+    // 3DS形式のモデルデータを読み込む
+    var loader = new THREE.STLLoader();
+    // var stl_material_stem = new THREE.MeshLambertMaterial({color: 0xffffff});
+    loader.load( './soy_stem.stl', function ( geometry1 ) {
+        var stl_geo_stem = new THREE.Mesh( geometry1, stem_material )
+        stl_geo_stem.rotation.x = 0//Math.PI / 180 * 90
+        stl_geo_stem.rotation.y = 0//Math.PI / 180 * 90
+        stl_geo_stem.rotation.z = 0
+        scene.add( stl_geo_stem );
+    });
+    // /var stem = new THREE.Mesh( stem_stl, stem_material );
+    
+    var loader = new THREE.STLLoader();
+    //var stl_material_leaf = new THREE.MeshLambertMaterial({color: 0xffffff});
+    loader.load( './soy_leaf.stl', function ( geometry2 ) {
+        var stl_geo_leaf = new THREE.Mesh( geometry2, leaf_material )
+        stl_geo_leaf.rotation.x = 0//Math.PI / 180 * 90
+        stl_geo_leaf.rotation.y = 0//Math.PI / 180 * 90
+        stl_geo_leaf.rotation.z = 0
+        scene.add( stl_geo_leaf );
+    });
+
+    var loader = new THREE.STLLoader();
+    //var stl_material_root = new THREE.MeshLambertMaterial({color: 0xffffff});
+    loader.load( './soy_root.stl', function ( geometry ) {
+        var stl_geo_root = new THREE.Mesh( geometry, root_material )
+        stl_geo_root.rotation.x = 0//Math.PI / 180 * 90
+        stl_geo_root.rotation.y = 0//Math.PI / 180 * 90
+        stl_geo_root.rotation.z = 0
+        scene.add( stl_geo_root );
+    });
+
+    /// mouse operation
+    // let rot = 0;
+    // let mouseX = 0;
+
+    // マウス座標はマウスが動いた時のみ取得できる
+    //document.addEventListener("mousemove", (event) => {
+    //  mouseX = event.pageX;
+    //});
+
+    // 平行光源を作成
+    // new THREE.DirectionalLight(色, 光の強さ)
+    //var light = new THREE.DirectionalLight(0xFFFFFF, 1);
+    //light.position.set(0, 0, 10)
+    //scene.add(light);
+
+    //var light = new THREE.SpotLight(0xffffff, 10);
+    var light = new THREE.PointLight(0xFFFFFF, 3)
+    light.position.set(2, 2, 2);
+    light.castShadow = true;
+    scene.add(light);
+    
+    // /var pointlight = new THREE.PointLight(0xFFFFFF, 1);
+    // /pointlight.position.set(0, 0, 5)
+    // /pointlight.position.z = 10
+    // /scene.add(pointlight);
+
+    // create soybean field
+    //const group = new THREE.Group();
+    //scene.add(group)
+    //for(let j=0; j<20; j++){
+    //    for (let i=0; i<100; i++){
+    //        loader.load( './soy_stem.stl', function ( geometry1 ) {
+    //            var stl_geo_stem = new THREE.Mesh( geometry1, stem_material )
+    //            stl_geo_stem.rotation.x = 0//Math.PI / 180 * 90
+    //            stl_geo_stem.rotation.y = 0//Math.PI / 180 * 90
+    //            stl_geo_stem.rotation.z = Math.random()*Math.PI;
+    //            stl_geo_stem.position.y = 0.25*(i+1);
+    //            stl_geo_stem.position.x = 0.85*(j+1);
+    //            group.add( stl_geo_stem);
+    //            scene.add( stl_geo_stem );
+    //        });
+    //    }
+    //}
+
+    tick();
+
+      // 毎フレーム時に実行されるループイベントです
+      function tick() {
+        //var radian = rot * Math.PI / 180;
+        stats.update();
+
+        requestAnimationFrame(tick);
+        
+        
+        //var angle=1;
+        //angle++; // 角度をインクリメント
+        //mesh.rotation.y = angle * Math.PI / 180; // 回転
+        // マウスのX座標がステージの幅の何%の位置にあるか調べてそれを360度で乗算する
+        //var targetRot = (mouseX / window.innerWidth) * 360;
+        // 値 += (目標値 - 現在の値) * 減速値
+        //rot += (targetRot - rot) * 0.02;
+        // ラジアンに変換する
+        //var radian = rot * Math.PI / 180;
+        // 角度に応じてカメラの位置を設定
+        //camera.position.x = 1000 * Math.sin(radian);
+        //camera.position.z = 1000 * Math.cos(radian);
+        // 原点方向を見つめる
+        //camera.lookAt(new THREE.Vector3(0, 0, 0));
+        
+        //x_coord = x_coord + 0.1;
+        // box.rotation.y += 0.0;
+        // spheremesh.rotation.x += 0.0;
+
+        //camera.position.x = 1 * Math.sin(1 * Math.PI / 180);
+        //camera.position.z = 1 * Math.cos(1 * Math.PI / 180);
+        // camera.lookAt(new THREE.Vector3(0, 0, 0));
+        
+        renderer.render(scene, camera); // レンダリング
+
+        // /light.position.x = controls.light_x;
+        // /light.position.y = controls.light_y;
+        // /light.position.z = controls.light_z;
+
+        light.position.x = controls.light_x;
+        light.position.y = controls.light_y;
+        light.position.z = controls.light_z;
+        light.power = controls.strength;
+        soilmesh.position.z = controls.ground_level;
+      }
+    }
+  </script>
+</head>
+<body>
+    
+    <canvas id="myCanvas"></canvas>
+    
+</body>
+</html>
