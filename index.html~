@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <meta name="viewport" content="user-scalable=no" />
+        
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNT2QW7VET"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-XNT2QW7VET');
+        </script>
+        
+
+        <title>plantFEM.org</title>
+        <link rel="stylesheet" href="style.css">
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src = "/scripts/jquery.min.js"></script>
+        <script src = "/bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- icons -->
+        <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+        <link rel="icon" type="image/png" href="android-icon.png" sizes="192x192">
+        <link rel="icon" type="image/x-icon" href="./favicon.ico">
+        
+    </head>
+
+
+    
+    <body class="p-3 mb-2 bg-dark text-white">
+
+        <section id="navi-bar">
+            <nav class="navbar navbar-dark bg-dark">
+                <!-- Navbar content -->
+                <div class="container-fluid">
+                    <div class="menu">
+                        <ul>
+                            <!--<li class="logo"><img src="images/index.png"></li> -->
+                            <li><a href="/" class="active">Home</li>
+                            <li><a href="https://github.com/kazulagi/plantfem" class="active">Download</li>
+                                <li><a href="https://colab.research.google.com/drive/1H5cmdKa9MJUC-22dHnvIgo8k6sdQ6NnF?usp=sharing" class="active">Run</li>
+                            <li><a href="https://github.com/kazulagi" class="active">Contact</li>
+                            <li><a href="./view_field.html" class="active"><span>View</span></a></li>
+                            <li><a href="#" class="signup-btn"><span>Sign up</span></a></li>
+                            
+                        </ul>
+                    </div>
+                </nav>
+            </section>
+
+            <div class="banner">
+                <div class="app-text">
+                    <h1>plant<span>FEM.org</span></h1>
+                    <a href="./view_field.html">
+                        <p>Fields in your hands</p>
+                    </a>
+
+
+                    <div class="play-btn">
+                        <div class="play-btn-inner"><a href="https://kazulagi.github.io/plantfem.github.io/"><i class="fa fa-leaf"></i></a>
+                        
+                        </div>
+                        
+                    </div>
+                    <small><b><a href="https://kazulagi.github.io/plantfem.github.io/">LEARN MORE</a></b></small>
+                </div>
+
+                <div class="app-picture">
+                    <a href="./view_field.html">
+                    <img src="images/soy.png" class="img-fluid">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+    </body>
+    
+
+</html>
